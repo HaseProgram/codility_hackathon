@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from ask.models import Profile, Question, Tag, Answer
+from interface.models import Profile
 from django.core.files import File
 from django import forms
 import urllib
