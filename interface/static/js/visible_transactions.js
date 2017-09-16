@@ -1,6 +1,6 @@
  $(document).ready(function() {
 
-    $('.correct').click(function() {
+    $('.visible').click(function() {
         console.log('1');
         var aid = $(this).data('aid');
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
@@ -11,20 +11,20 @@
         console.log(aid);
         $.ajax({
             type: 'POST',
-            url: '/correct',
+            url: '/visible',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: { "X-CSRFToken": csrftoken},
             data: JSON.stringify({aid: aid, checked: checked}),
         }).done(function(resp) 
         {
-            if (resp.correct) 
+            if (resp.visible) 
             {
-                console.log("1sd");
-                $('#correct_'+resp.aid).html("Correct!");
-            } else 
+                $('#visible'+resp.aid).html("Public");
+            } 
+            else 
             {
-                $('#correct_'+resp.aid).html("");
+                $('#visible'+resp.aid).html("Private");
             }
         }).fail(function(err) {
             console.log(err);
