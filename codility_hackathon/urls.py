@@ -19,7 +19,8 @@ from interface import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^signin/', views.signin),
-
-    
+    url(r'^signin/', views.signin, name='sign-in-url'),
+    url(r'^index/', views.index, name='index-url'),
+    url(r'^$', views.index,  name='index-url'),
+  
 ]
