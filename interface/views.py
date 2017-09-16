@@ -30,4 +30,22 @@ def signin(request):
 def index(request):
     #redirect = request.GET.get('continue', '/signin')
     cardsList = json.loads(getcardlist())
-    return HttpResponseRedirect()
+    return HttpResponseRedirect('/')
+
+
+def signup(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth.login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = SignupForm()
+
+    return render(request, 'signup.html', {
+            'form': form,
+            })

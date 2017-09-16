@@ -32,7 +32,6 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(u'This user don\'t active')
         else:
             raise forms.ValidationError(u'Uncorrect login or password')
-<<<<<<< HEAD
 
 
 class SignupForm(forms.Form):
@@ -61,13 +60,13 @@ class SignupForm(forms.Form):
             min_length=6, label=u'Repeat password'
             )
 
-    card_number = orms.CharField(
+    fake_card = orms.CharField(
             widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': u'...', }),
             required=True, label=u'Status'
             )
         
 
-    info = forms.CharField(
+    interest = forms.CharField(
             widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': u'...', }),
             required=False, label=u'Status'
             )
@@ -104,10 +103,8 @@ class SignupForm(forms.Form):
 
         profile = Profile()
         profile.user = user
-        profile.info = data.get('info')
-        profile.avatar = data.get('avatar')
+        profile.interest = data.get('interest')
+        profile.fake_card = data.get('fake_card')
 
         profile.save()
         return authenticate(username=user.username, password=password)
-=======
->>>>>>> 92013437248323ad34c11e238cf8b98f01a02ce8
