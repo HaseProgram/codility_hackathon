@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from  django.template import loader
 from django.template import Template
