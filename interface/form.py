@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from interface.models import Profile
+from interface.models import Profile, FakeCard
 from django.core.files import File
 from django import forms
 import urllib
@@ -76,8 +76,10 @@ class SignupForm(forms.Form):
 
         try:
             u = User.objects.get(username=username)
+            print('a')
             raise forms.ValidationError(u'User exist')
         except User.DoesNotExist:
+            print('b')
             return username
 
     def clean_password2(self):
@@ -92,7 +94,6 @@ class SignupForm(forms.Form):
         password = data.get('password1')
         user = User()
 
-
         user.username = data.get('username')
         user.password = make_password(password)
         user.email = data.get('email')
@@ -100,12 +101,16 @@ class SignupForm(forms.Form):
         user.last_name = data.get('last_name')
         user.is_active = True
         user.is_superuser = False
-        user.save()
        
         profile = Profile()
+        fake_card = FakeCard()
+        fake_card.save()
+        user.save()
+
         profile.user = user
         profile.interest = data.get('interest')
-        profile.fake_card = fake_card#data.get('fake_card')
+        profile.fake_card = fake_card
 
         profile.save()
+        
         return authenticate(username=user.username, password=password)
