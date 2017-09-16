@@ -7,8 +7,6 @@ from django.contrib.auth.decorators import login_required
 import json 
 from interface.openapi import getcardlist
 # Create your views here.
-# def signin(request):
-#    return render(request, "signin.html",{})
 
 def signin(request):
     redirect = request.GET.get('continue', '/')
@@ -26,6 +24,7 @@ def signin(request):
     return render(request, 'signin.html', {
             'form': form,
 })
+
 
 @login_required(redirect_field_name='continue')
 def index(request):

@@ -32,6 +32,7 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(u'This user don\'t active')
         else:
             raise forms.ValidationError(u'Uncorrect login or password')
+<<<<<<< HEAD
 
 
 class SignupForm(forms.Form):
@@ -108,3 +109,5 @@ class SignupForm(forms.Form):
 
         profile.save()
         return authenticate(username=user.username, password=password)
+=======
+>>>>>>> 92013437248323ad34c11e238cf8b98f01a02ce8
