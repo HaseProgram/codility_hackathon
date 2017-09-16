@@ -6,25 +6,25 @@ from django.core.urlresolvers import reverse
 from django.db.models.functions import Coalesce
 import datetime
 
+class FakeCard(models.Model):
+    cash = models.IntegerField(default=0)
+
 class Profile(models.Model):
     user = models.OneToOneField(User)
     interest = models.TextField(max_length=50)
     fake_card = models.OneToOneField(FakeCard)
 
-class FakeCard(models.Model):
-	cash = models.IntegerField(default=0)
-
 class MileStone(models.Model):
-	card = models.OneToOneField(FakeCard)
-	milestone = models.DateTimeField(deault=timezone.now() + datetime.timedelta(7))
+    card = models.OneToOneField(FakeCard)
+    milestone = models.DateTimeField(default=timezone.now() + datetime.timedelta(7))
 
 class Friend(models.Model):
-	friends = models.ManyToManyField(Profile)
+    friends = models.ManyToManyField(Profile)
 
 class Transaction(models.Model):
-	transactionId = models.IntegerField(null=False)
-	owner = models.OneToOneField(Profile)
-	visibility = models.BooleanField(default=null)
+    transactionId = models.IntegerField(null=False)
+    owner = models.OneToOneField(Profile)
+    visibility = models.BooleanField(default=False)
 
 
 
