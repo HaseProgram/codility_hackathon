@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="card card-container">
-    	<span>Log into your account to continue!</span>
+    	<span>Thank you for joining us!</span>
 	    <form class="form-signin" data-toggle="validator" action="/login" method="POST" autocomplete="off">
            {% csrf_token %}
            {%if form.non_field_errors.as_text %}
@@ -26,8 +26,8 @@
                 </div>
 
             {% endfor %}
-                <button class="btn btn-primary btn-block btn-signin" type="submit">Sign in</button>
-                <center><a href="/signup" class="" type="submit">Sign up</a></center>
+                <button class="btn btn-primary btn-block btn-signin" type="submit">Sign up</button>
+                <center><a href="/signin" class="" type="submit">Sign in</a></center>
             </div>
         </form>
     </div>

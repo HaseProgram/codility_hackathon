@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>CODILITY</title>
-	</head>
-	<body>
-		{% block content %}
-      	{% endblock %}
+    <head>
+        <meta charset="utf-8">
+        <title>CODILITY</title>
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/base.css">
+    </head>
+    <body>
+        <div id="main">
+            {% block content %}
+                <center>Hello! I'm the line you will never see!</center>
+            {% endblock %}
+        </div>      	
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	</body>
 </html>

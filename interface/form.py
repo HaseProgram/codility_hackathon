@@ -10,7 +10,7 @@ import urllib
 class LoginForm(forms.Form):
     login = forms.CharField(
             widget=forms.TextInput(
-                attrs={ 'class': 'form-control col-md-12 col-xs-12 inp-radius', 'placeholder': 'login', }
+                attrs={ 'class': 'form-control', 'placeholder': 'login', 'autocomplete' : 'off'}
                 ),
             max_length=30,
             label=u'Login'
@@ -18,7 +18,7 @@ class LoginForm(forms.Form):
 
     password = forms.CharField(
             widget=forms.PasswordInput(
-                attrs={ 'class': 'form-control col-md-12 col-xs-12 inp-radius', 'type': 'password', 'placeholder': 'password'}),
+                attrs={ 'class': 'form-control', 'type': 'password', 'placeholder': 'password', 'autocomplete' : 'off'}),
             label=u'Password'
             )
 
