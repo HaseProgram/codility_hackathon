@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGIN_URL = '/signin/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,8 +82,8 @@ DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'codility',
-        'USER': 'comp',
-        'PASSWORD': '951103',
+        'USER': 'root',
+        'PASSWORD': 'apolon18',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }

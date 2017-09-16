@@ -2,13 +2,11 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from  django.template import loader
 from django.template import Template
 from django.shortcuts import render, render_to_response
-from interface.form import LoginForm
+from interface.form import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
-import json	
-from openapi import getcardlist
-# Create your views here.
-# def signin(request):
-# 	 return render(request, "signin.html",{})
+from django.contrib import auth
+import json 
+#from interface.openapi import getcardlist
 
 def signin(request):
     redirect = request.GET.get('continue', '/')
@@ -27,8 +25,28 @@ def signin(request):
             'form': form,
 })
 
-@login_required()
-def main(request):
-    #redirect = request.GET.get('continue', '/signin')
-    cardsList = json.loads(getcardlist())
-    return HttpResponseRedirect()
+
+@login_required(redirect_field_name='continue')
+def index(request):
+    #redirect = request.GET.get('continue', '/')
+    #cardsList = json.loads(getcardlist())
+    print('hello')
+    return HttpResponse()
+
+
+def signup(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth.login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = SignupForm()
+
+    return render(request, 'signup.html', {
+            'form': form,
+            })
