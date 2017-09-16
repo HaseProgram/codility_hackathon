@@ -60,7 +60,7 @@ class SignupForm(forms.Form):
             min_length=6, label=u'Repeat password'
             )
 
-    fake_card = orms.CharField(
+    fake_card = forms.CharField(
             widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': u'...', }),
             required=True, label=u'Status'
             )
@@ -92,6 +92,7 @@ class SignupForm(forms.Form):
         password = data.get('password1')
         user = User()
 
+
         user.username = data.get('username')
         user.password = make_password(password)
         user.email = data.get('email')
@@ -100,11 +101,11 @@ class SignupForm(forms.Form):
         user.is_active = True
         user.is_superuser = False
         user.save()
-
+       
         profile = Profile()
         profile.user = user
         profile.interest = data.get('interest')
-        profile.fake_card = data.get('fake_card')
+        profile.fake_card = fake_card#data.get('fake_card')
 
         profile.save()
         return authenticate(username=user.username, password=password)

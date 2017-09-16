@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1> Registration </h1>
+        <section class="col-md-9">
+          <form role="form" data-toggle="validator" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {%if form.non_field_errors.as_text %}
+                 <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>{{ form.non_field_errors.as_text }} </strong>
+                </div> 
+              {%endif%}
+              {%for field in form  %}
+                <div class="form-group {% if field.errors %}  has-error{% endif %} martop15 col-md-12 col-xs-12 pad0">
+                      {{field.labelfile}}
+                      {%if field.label == "Avatar" %}
+                        <div class="col-md-12 col-xs-12 pad0 martop15 upload-img-div">
+                          <img src="{{MEDIA_URL}}noavatar.jpg" id="img_signup_settings" class="upload-img">
+                        </div> 
+                        <div class="col-md-12 col-xs-12 pad0">
+                          <span class="input-group-addon form-span span-pad col-md-1 col-xs-2" id="setting-addon2">{{field.label}}   </span>
+                          <div class="pad0">
+                            <label class="upload file-upload filebordered" id="fff" for="id_avatar">
+                              <mark class="pad0"></mark><span class="btn btn-success btnfileupload">Upload</span>
+                                {{field}}
+                            </label>
+                          </div>
+                        </div>
+                      {% else %}
+                          <div class="col-md-12 col-xs-12 pad0">
+                            <span class="input-group-addon form-span span-pad col-md-1 col-xs-2" id="setting-addon2">{{field.label}}   </span>
+                            <div class="pad0 col-md-9 col-xs-8">
+                              {{field}}
+                              {% if field.errors %} 
+                                {% for e in field.errors %}
+                                  <div class="error">
+                                    {{ e }}
+                                  </div>
+                                {% endfor %}
+                              {% endif %}
+                              <div class="help-block with-errors"> </div>
+                            </div>
+                          </div>
+
+                      {%endif%}
+                </div>
+              {% endfor %}
+            <div class="martop15">
+              <button class="btn btn-success form-span col-md-1" type="submit">Register </button>
+            </div>
+          </form>
+        </section>
+{% endblock %}
