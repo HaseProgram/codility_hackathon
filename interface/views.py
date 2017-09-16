@@ -32,5 +32,9 @@ def form_login(request):
             'form': form,
 })
 
+@login_required(redirect_field_name='continue')
 def form_logout(request):
+    redirect = request.GET.get('continue', '/')
+    auth.logout(request)
+    return HttpResponseRedirect(redirect)
     
