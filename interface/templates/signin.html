@@ -1,30 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
- 	<h1> Log In </h1>
-	<form role="form" data-toggle="validator" method="post">
-	{% csrf_token %}
-	{%if form.non_field_errors.as_text %}
-	  <div class="alert alert-danger alert-dismissible" role="alert">
-	    {% for error in form.non_field_errors %}
-	        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <strong>{{error}}</strong>
-	    {% endfor %}
-	  </div> 
-	{%endif%}
-	{% for field in form %}
-	<div class="form-group martop15 col-md-12 col-xs-12 pad0">
-	  <div class="col-md-12 col-xs-12 pad0">
-	    <span class="input-group-addon form-span span-pad col-md-1 col-xs-2" id="setting-addon1">{{field.label}}   </span>
-	    <div class="pad0 col-md-9 col-xs-8">
-	      {{field}}
-	      <div class="help-block with-errors"> </div>
-	    </div>
-	  </div>
-	</div>
-	{% endfor %}
-	    <div style="clear: both"></div>
-	<div style="width: 100%; height: 50px;">
-	  <button class="btn btn-success form-span col-md-1" type="submit">Log in </button>
-	</div>
-	</form>
+<div class="container">
+    <div class="card card-container">
+    	<span>Log into your account to continue!</span>
+	    <form class="form-signin" data-toggle="validator" action="/login" method="POST" autocomplete="off">
+           {% csrf_token %}
+           {%if form.non_field_errors.as_text %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {% for error in form.non_field_errors %}
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <strong>{{error}}</strong>
+                {% endfor %}
+             </div>
+            {%endif%}
+
+            {% for field in form %}
+
+                {{field}}
+                <div class="help-block with-errors">
+                    {% if field.errors %}
+                        {% for e in field.errors %}
+                            {{ e }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+            {% endfor %}
+                <button class="btn btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                <center><a href="/signup" class="" type="submit">Sign up</a></center>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
