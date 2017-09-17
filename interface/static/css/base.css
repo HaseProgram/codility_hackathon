@@ -62,3 +62,9 @@ body {
 .card center {
 	margin-top: 10px;
 }
+
+.content {
+	background: #ccc;
+	margin: 10px;
+	padding: 10px;
+}

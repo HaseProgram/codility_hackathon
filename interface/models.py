@@ -20,7 +20,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     interest = models.TextField(max_length=50)
     fake_card = models.OneToOneField(FakeCard)
-    profiles = models.ManyToManyField(Profile)
+    profiles = models.ManyToManyField("self")
+
+    def get_fakecard(self):
+        return str(self.fake_card)
 
 class MileStone(models.Model):
     card = models.OneToOneField(FakeCard)
@@ -28,7 +31,6 @@ class MileStone(models.Model):
 
 # class Contact(models.Model):
     # profiles = models.ManyToManyField(Profile)
-
 
 
 class Transaction(models.Model):
