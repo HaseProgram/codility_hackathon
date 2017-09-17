@@ -15,6 +15,20 @@ class FakeCard(models.Model):
 class ProfileManager(models.Manager):
     def get_by_profile(self, profile):
         return self.get_queryset().filter(profiles=profile)
+  
+    def get_or_create(self, user_id):
+        profile = self.get_queryset().filter(user_id=user_id)
+        if profile.count() > 0:
+            return profile[0]
+        else:
+            profile = Profile()
+            fake_card = FakeCard()
+            fake_card.save()
+            profile.fake_card = fake_card
+            print(user_id)
+            profile.user = User.objects.get(id=user_id)
+            profile.save()
+            return profile
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -24,6 +38,8 @@ class Profile(models.Model):
 
     def get_fakecard(self):
         return str(self.fake_card)
+
+    objects=ProfileManager()
 
 class MileStone(models.Model):
     card = models.OneToOneField(FakeCard)
