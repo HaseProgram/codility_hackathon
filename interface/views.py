@@ -7,6 +7,7 @@ from interface.models import Profile, Card
 from interface.openapi import OpenAPI, BadResponseError
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+from random import randint
 import json 
 #from interface.openapi import getcardlist
 
@@ -35,6 +36,7 @@ def signin(request):
 @login_required(redirect_field_name='continue')
 def index(request):
     oapi = OpenAPI()
+    userlist = Profile.objects.get_contact()
     try:
         cards = oapi.get_cardlist()
         cardslist = []
@@ -45,8 +47,17 @@ def index(request):
             cardslist.append(tCard)
             fakeCard = request.session['fakecard']
             transaktions = oapi.get_transactions(card['CardId'])
-            print(transaktions)
-        return render(request, 'index.html')
+            for transaction in transactions
+                transId = randint(1, 100)
+                if int(transaction['TransactionSum']) < 0 && Transaction.objects.get(id = transId) != None:
+                    tempTransaction =  Transaction()
+                    tempTransaction.transactionId = transId
+                    tempTransaction.owner = Profile.objects.filter(user_id = request.user.id)[0]
+                    tempTransaction.visibility = False
+                    tempTransaction.save()
+
+            transactionlist = Transactions.objects.get_by_profid()
+        return render(request, 'index.html', { 'transactionlist' : transactionlist, 'userlist' : userlist, 'cardlist' : cardlist })
     except BadResponseError:
         message = 'Error with api'
         return render(request, 'error.html', {
