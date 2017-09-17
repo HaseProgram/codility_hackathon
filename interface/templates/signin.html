@@ -3,7 +3,7 @@
 <div class="container">
     <div class="card card-container">
     	<span>Log into your account to continue!</span>
-	    <form class="form-signin" data-toggle="validator" action="/login" method="POST" autocomplete="off">
+	    <form class="form-signin" data-toggle="validator" action="/signin" method="POST" autocomplete="off">
            {% csrf_token %}
            {%if form.non_field_errors.as_text %}
             <div class="alert alert-danger alert-dismissible" role="alert">

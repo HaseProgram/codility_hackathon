@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row content">
+        <aside class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <a class="btn btn-primary" href="{ % url 'logout-url' %}">Logout</a>
+            <hr>
+            Contacts:
+            <ul>
+            {% for user in userlist %}
+            	<li><a href="{ % url 'donate-url' %}">{{user}}</a></li>
+            {% endfor %}
+            </ul>
+        </aside>
+        <section class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+        	{% for card in cardlist %}
+            	{{card.balance}}<img src="/img/card.png" alt="card">
+            {% endfor %}
+            <hr>
+            {{fakecard.balance}}<img src="/img/giftcard.png" alt="gift card">
+            Do you wait for a gift? {{fakecard.timeleft}}
+            <hr>
+            {% for transaction in transactionlist %}
+                {{transaction.owner}}  	                
+                <input type="checkbox" class="set-visible" data-transactionid="{{transaction.transactionID}}" {% if trasaction.visibility %} checked {%endif %}>
+                <span id="visible{{transaction.transactionID}}"></span>
+            {% endfor %}
+        </section>
+</div>
+<script src="/js/visible_transactions.js"></script>
+{% endblock %}

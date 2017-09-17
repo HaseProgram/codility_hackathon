@@ -1,21 +1,18 @@
  $(document).ready(function() {
 
-    $('.visible').click(function() {
-        console.log('1');
-        var aid = $(this).data('aid');
+    $('.set-visible').click(function() {
+        var tid = $(this).data('data-transactionid');
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        var checked =$(this).prop("checked");
         if (csrftoken == null)
             csrftoken = Cookies.get('csrftoken'); // read from input csrftoken
-        var checked =$(this).prop("checked");
-        console.log(csrftoken);
-        console.log(aid);
         $.ajax({
             type: 'POST',
-            url: '/visible',
+            url: '/publictransaction',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             headers: { "X-CSRFToken": csrftoken},
-            data: JSON.stringify({aid: aid, checked: checked}),
+            data: JSON.stringify({tid: tid, checked: checked}),
         }).done(function(resp) 
         {
             if (resp.visible) 
