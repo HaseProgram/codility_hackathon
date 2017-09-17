@@ -36,17 +36,17 @@ def signin(request):
 def index(request):
     oapi = OpenAPI()
     try:
-        cards = oapi.getcardlist()
+        cards = oapi.get_cardlist()
         cardslist = []
         for card in cards['Card']:
-            balance = oapi.getbalance(card['CardId'])
+            balance = oapi.get_balance(card['CardId'])
             tCard = Card()
             tCard.balance = balance['Value']
             cardslist.append(tCard)
             fakeCard = request.session['fakecard']
-            transaktions = oapi.gettransactions(card['CardId'])
+            transaktions = oapi.get_transactions(card['CardId'])
             print(transaktions)
-        return HttpResponse()
+        return render(request, 'index.html')
     except BadResponseError:
         message = 'Error with api'
         return render(request, 'error.html', {
