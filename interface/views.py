@@ -4,7 +4,7 @@ from django.template import Template
 from django.shortcuts import render, render_to_response
 from interface.form import LoginForm, SignupForm
 from interface.models import Profile, Card
-from interface.openapi import OpenAPI
+from interface.openapi import OpenAPI, BadResponseError
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 import json 
@@ -19,8 +19,11 @@ def signin(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-        	request.session['fakecard'] = Profile.objects.filter(user_id=request.user.id)[0].get_fakecard()
             auth.login(request, form.cleaned_data['user'])
+            # print(request.user.id)
+            profile = Profile.objects.get_or_create(request.user.id)
+            # print(profile)
+            request.session['fakecard'] = profile.get_fakecard()#Profile.objects.filter(user_id=request.user.id)[0].get_fakecard()
             return HttpResponseRedirect(redirect)
     else:
         form = LoginForm()
@@ -32,19 +35,23 @@ def signin(request):
 @login_required(redirect_field_name='continue')
 def index(request):
     oapi = OpenAPI()
-    cards = oapi.getcardlist()
-    cardslist = []
-    for card in cards['Card']:
-        balance = oapi.getbalance(card['CardId'])
-        tCard = Card()
-        tCard.balance = balance['Value']
-        cardslist.append(tCard)
-        fakeCard = request.session['fakecard']
-        transaktions = oapi.gettransactions(card['CardId'])
-        print(transaktions)
-
-    return HttpResponse()
-
+    try:
+        cards = oapi.getcardlist()
+        cardslist = []
+        for card in cards['Card']:
+            balance = oapi.getbalance(card['CardId'])
+            tCard = Card()
+            tCard.balance = balance['Value']
+            cardslist.append(tCard)
+            fakeCard = request.session['fakecard']
+            transaktions = oapi.gettransactions(card['CardId'])
+            print(transaktions)
+        return HttpResponse()
+    except BadResponseError:
+        message = 'Error with api'
+        return render(request, 'error.html', {
+            'message': message 
+})
 
 def signup(request):
     if request.user.is_authenticated():
