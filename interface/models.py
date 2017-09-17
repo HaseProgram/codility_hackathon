@@ -6,6 +6,9 @@ from django.core.urlresolvers import reverse
 from django.db.models.functions import Coalesce
 import datetime
 
+class Card(models.Model):
+    balance = models.IntegerField(default=0)
+    
 class FakeCard(models.Model):
     cash = models.IntegerField(default=0)
 

@@ -99,7 +99,8 @@ class SignupForm(forms.Form):
         user.is_superuser = False
        
         user.save()
-
+        
+        profile = Profile()
         profile.user = user
         profile.interest = data.get('interest')
         profile.save()
