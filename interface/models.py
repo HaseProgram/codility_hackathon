@@ -22,6 +22,9 @@ class Profile(models.Model):
     fake_card = models.OneToOneField(FakeCard)
     profiles = models.ManyToManyField("self")
 
+    def get_fakecard(self):
+        return str(self.fake_card)
+
 class MileStone(models.Model):
     card = models.OneToOneField(FakeCard)
     milestone = models.DateTimeField(default=timezone.now() + datetime.timedelta(7))

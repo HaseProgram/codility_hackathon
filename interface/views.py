@@ -19,6 +19,7 @@ def signin(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
+        	request.session['fakecard'] = Profile.objects.filter(user_id=request.user.id)[0].get_fakecard()
             auth.login(request, form.cleaned_data['user'])
             return HttpResponseRedirect(redirect)
     else:
@@ -39,6 +40,10 @@ def index(request):
         tCard = Card()
         tCard.balance = balance['Value']
         cardslist.append(tCard)
+        fakeCard = request.session['fakecard']
+        transaktions = oapi.gettransactions(card['CardId'])
+        print(transaktions)
+
     return HttpResponse()
 
 
@@ -51,6 +56,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth.login(request, user)
+            request.session['fakecard'] = Profile.objects.filter(user_id=request.user.id)[0].get_fakecard()
             return HttpResponseRedirect('/')
     else:
         form = SignupForm()

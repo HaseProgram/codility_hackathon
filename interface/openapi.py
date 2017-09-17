@@ -24,3 +24,13 @@ class OpenAPI(object):
         else:
             print(response.status_code)
             raise BadResponseError
+
+    def gettransactions(self, cardId):
+        h = { 'Accept': 'application/json' }
+        d = { 'CardId' : cardId }
+        response = requests.post(self._url('/MyCards/1.0.0/MyCardsInfo/history'), headers = h, json = d)
+        if response.status_code == 200:
+            return response.json()['CardTransactionsList'][0]['CardTransaction']
+        else:
+            print(response.status_code)
+            raise BadResponseError
