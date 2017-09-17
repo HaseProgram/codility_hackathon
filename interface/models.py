@@ -15,11 +15,15 @@ class FakeCard(models.Model):
 
 class ProfileManager(models.Manager):
     def get_by_profile(self, profile):
-        return self.get_queryset().filter(profiles=profile)
+        return self.get_queryset().filter(profiles=profile)#prefetch_related('profiles')
        
     def get_profiles_by_id(self, user_id):
-        profile = Profiles.get(user_id=user_id)
-        return get_by_profile(profile)
+        # print('a')
+        # print(user_id)
+        profile = self.get_queryset().get(user_id=user_id)
+        # print(profile.id)
+        res = self.get_by_profile(profile)
+        return self.get_by_profile(profile)
 
     def get_or_create(self, user_id):
         profile = self.get_queryset().filter(user_id=user_id)
@@ -42,14 +46,21 @@ class TransactionManager(models.Manager):
         transaction_sum = int(transaction['TransactionSum'])
         # except ValueError:
           # raise  
-        if transaction_sum < 0 and Transaction.get_queryset().filter(id = trans_id).count == 0:
+        print(transaction_sum)
+        print(trans_id)
+        print(self.get_queryset().filter(id = trans_id).count() == 0)
+        if transaction_sum < 0 and self.get_queryset().filter(id = trans_id).count() == 0:
             tempTransaction =  Transaction()
             tempTransaction.transactionId = trans_id
             tempTransaction.owner = Profile.objects.filter(user_id = user_id)[0]
             tempTransaction.visibility = False
             tempTransaction.save()
 
-
+    def get_by_userid(self, user_id):
+        print(user_id)
+        profile = Profile.objects.all().get(user_id=user_id)
+        print(profile.id)
+        return self.get_queryset().filter(owner=profile)
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -75,5 +86,8 @@ class MileStone(models.Model):
 
 class Transaction(models.Model):
     transactionId = models.IntegerField(null=False)
-    owner = models.OneToOneField(Profile)
+    owner = models.ForeignKey(Profile)
+    transaction_company = models.CharField(default='', max_length=50)
     visibility = models.BooleanField(default=False)
+
+    objects = TransactionManager()

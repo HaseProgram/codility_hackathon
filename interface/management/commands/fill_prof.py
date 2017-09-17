@@ -25,26 +25,26 @@ class Command(BaseCommand):
 
         number = int(options['number'])
 	#imgsc = len(imgs)
-        # for i in range(0, number):
-        #     profile = fake.simple_profile()
+        for i in range(0, number):
+            profile = fake.simple_profile()
 
-        #     user = User.objects.create_user(profile['username'] + str(i), profile['mail'], make_password('qwerty'))
-        #     user.first_name = fakeen.first_name()
-        #     user.last_name = fakeen.last_name()
-        #     user.is_active = True
-        #     user.is_superuser = False
-        #     user.save()
+            user = User.objects.create_user(profile['username'] + str(i), profile['mail'], make_password('111111'))
+            user.first_name = fakeen.first_name()
+            user.last_name = fakeen.last_name()
+            user.is_active = True
+            user.is_superuser = False
+            user.save()
 
-        #     fake_card = FakeCard()
-        #     fake_card.save()
+            fake_card = FakeCard()
+            fake_card.save()
 
-        #     profile = Profile()
-        #     profile.user = user
-        #     profile.fake_card = fake_card
-        #     #up.info = '%s [%s]' % (fakeen.company(), fakeen.catch_phrase())
-        #     profile.save()
+            profile = Profile()
+            profile.user = user
+            profile.fake_card = fake_card
+            #up.info = '%s [%s]' % (fakeen.company(), fakeen.catch_phrase())
+            profile.save()
 
-        #     self.stdout.write('[%d] added user %s' % (user.id, user.username))
+            self.stdout.write('[%d] added user %s' % (user.id, user.username))
 
         profiles_count = Profile.objects.count()
         for profile in Profile.objects.all():

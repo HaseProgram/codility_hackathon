@@ -3,7 +3,7 @@ from  django.template import loader
 from django.template import Template
 from django.shortcuts import render, render_to_response
 from interface.form import LoginForm, SignupForm
-from interface.models import Profile, Card
+from interface.models import Profile, Card, Transaction
 from interface.openapi import OpenAPI, BadResponseError
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
@@ -36,9 +36,10 @@ def signin(request):
 @login_required(redirect_field_name='continue')
 def index(request):
     oapi = OpenAPI()
-    userlist = Profile.objects.get_contact()
+    userlist = Profile.objects.get_profiles_by_id(request.user.id)
     try:
         cards = oapi.get_cardlist()
+        print(cards)
         cardslist = []
         for card in cards['Card']:
             balance = oapi.get_balance(card['CardId'])
@@ -46,17 +47,12 @@ def index(request):
             tCard.balance = balance['Value']
             cardslist.append(tCard)
             fakeCard = request.session['fakecard']
-            transaktions = oapi.get_transactions(card['CardId'])
+            transactions = oapi.get_transactions(card['CardId'])
             for transaction in transactions:
-                transId = randint(1, 100)
-                if int(transaction['TransactionSum']) < 0 and Transaction.objects.get(id = transId) != None:
-                    tempTransaction =  Transaction()
-                    tempTransaction.transactionId = transId
-                    tempTransaction.owner = Profile.objects.filter(user_id = request.user.id)[0]
-                    tempTransaction.visibility = False
-                    tempTransaction.save()
-
-            transactionlist = Transactions.objects.get_by_profid()
+                print(transaction)
+                Transaction.objects.generate_transaction(transaction, request.user.id)
+            transactionlist = Transaction.objects.get_by_userid(request.user.id)
+            cardlist = None
         return render(request, 'index.html', { 'transactionlist' : transactionlist, 'userlist' : userlist, 'cardlist' : cardlist })
     except BadResponseError:
         message = 'Error with api'
@@ -105,7 +101,7 @@ def publictransaction(request):
 
 
 @login_required(redirect_field_name='continue')
-def contact(request, userid)
+def contact(request, userid):
     redirect = request.GET.get('continue', '/')
     requested_contact = Profile.objects.filter(user_id=userid)
     if requested_contact.count > 0:
@@ -114,4 +110,3 @@ def contact(request, userid)
         Http404()
     return render(request, 'contact.html', { 'fakecard' : fakecard })
     
-)
