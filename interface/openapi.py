@@ -1,5 +1,5 @@
 import urllib.request as requests
-
+#TODO 
 def _url(path):
     return 'https://api.open.ru' + path
 

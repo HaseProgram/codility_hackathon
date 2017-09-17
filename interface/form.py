@@ -60,15 +60,11 @@ class SignupForm(forms.Form):
             min_length=6, label=u'Repeat password'
             )
 
-    fake_card = forms.CharField(
-            widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': u'...', }),
-            required=True, label=u'Status'
-            )
         
 
     interest = forms.CharField(
             widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': u'...', }),
-            required=False, label=u'Status'
+            required=False, label=u'Interests'
             )
 
     def clean_username(self):
@@ -102,15 +98,10 @@ class SignupForm(forms.Form):
         user.is_active = True
         user.is_superuser = False
        
-        profile = Profile()
-        fake_card = FakeCard()
-        fake_card.save()
         user.save()
 
         profile.user = user
         profile.interest = data.get('interest')
-        profile.fake_card = fake_card
-
         profile.save()
         
         return authenticate(username=user.username, password=password)

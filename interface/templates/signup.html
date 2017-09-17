@@ -3,7 +3,7 @@
 <div class="container">
     <div class="card card-container">
     	<span>Thank you for joining us!</span>
-	    <form class="form-signin" data-toggle="validator" action="/login" method="POST" autocomplete="off">
+	    <form class="form-signin" data-toggle="validator" method="POST" autocomplete="off">
            {% csrf_token %}
            {%if form.non_field_errors.as_text %}
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -27,7 +27,7 @@
 
             {% endfor %}
                 <button class="btn btn-primary btn-block btn-signin" type="submit">Sign up</button>
-                <center><a href="/signin" class="" type="submit">Sign in</a></center>
+                <center><a href={% url 'signin-url' %} class="" type="submit">Sign in</a></center>
             </div>
         </form>
     </div>

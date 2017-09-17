@@ -10,6 +10,7 @@ import json
 
 def signin(request):
     redirect = request.GET.get('continue', '/')
+    print(redirect)
     if request.user.is_authenticated():
         return HttpResponseRedirect(redirect)
 
@@ -50,3 +51,11 @@ def signup(request):
     return render(request, 'signup.html', {
             'form': form,
             })
+
+@login_required(redirect_field_name='continue')
+def logout(request):
+    redirect = request.GET.get('continue', '/')
+    auth.logout(request)
+    return HttpResponseRedirect(redirect)
+
+def Main
