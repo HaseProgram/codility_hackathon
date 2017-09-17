@@ -29,8 +29,7 @@ def signin(request):
             'form': form,
 })
 
-
-#@login_required(redirect_field_name='continue')
+@login_required(redirect_field_name='continue')
 def index(request):
     oapi = OpenAPI()
     cards = oapi.getcardlist()
@@ -70,3 +69,18 @@ def logout(request):
     redirect = request.GET.get('continue', '/')
     auth.logout(request)
     return HttpResponseRedirect(redirect)
+
+@login_required(redirect_field_name='continue')
+def publictransaction(request):
+    redirect = request.GET.get('continue', '/')
+    body = request.body.decode("utf-8")
+    request.POST = json.loads(body)
+    transaction = Transaction.objects.get(id=request.POST.get('tid', False))
+    is_public = request.POST.get('checked', False)
+    transaction.public = is_public
+    transaction.save()
+
+    return HttpResponse(
+        json.dumps({"tid": request.POST['tid'], 'public': is_public}),
+        content_type="application/json"
+)

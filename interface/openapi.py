@@ -3,6 +3,10 @@ import requests
 class BadResponseError(Exception):
     pass
 
+class BadRequest(Exception):
+    def __init__(self, message)
+        self.message  = message
+
 class OpenAPI(object):
 
     def _url(self, path):
@@ -20,9 +24,12 @@ class OpenAPI(object):
         d = { 'CardId' : cardId }
         response = requests.post(self._url('/MyCards/1.0.0/MyCardsInfo/balance'), headers = h, json = d)
         if response.status_code == 200:
-            return response.json()['CardBalance'][0]
+        	r = response.json()
+            if r['ErrorCode'] == 0:
+            	return r['CardBalance'][0]
+            else:
+            	raise BadRequest(r['ErrorDescription'])
         else:
-            print(response.status_code)
             raise BadResponseError
 
     def gettransactions(self, cardId):
@@ -30,7 +37,10 @@ class OpenAPI(object):
         d = { 'CardId' : cardId }
         response = requests.post(self._url('/MyCards/1.0.0/MyCardsInfo/history'), headers = h, json = d)
         if response.status_code == 200:
-            return response.json()['CardTransactionsList'][0]['CardTransaction']
+        	r = response.json()
+            if r['ErrorCode'] == 0:
+                return r['CardTransactionsList'][0]['CardTransaction']
+            else:
+            	raise BadRequest('Error occured in transaction query!')
         else:
-            print(response.status_code)
             raise BadResponseError
