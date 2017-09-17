@@ -111,3 +111,21 @@ class SignupForm(forms.Form):
         profile.save()
         
         return authenticate(username=user.username, password=password)
+
+class DonateForm(forms.Form):
+    cash = forms.CharField(
+            widget=forms.TextInput( attrs={ 'class': 'form-control inp-radius', 'placeholder': 'Login', }),
+            max_length=30, label=u'donate'
+            )
+
+    def clean(self):
+        data = self.cleaned_data
+        cashChar = data.get('cash', '')
+        try:
+            cash = int(cashChar)
+            if (cash < 0):
+                raise ValidationError(u'Cant donate < 0')
+        except ValueError:
+            raise ValidationError(u'Please input integer data')
+            
+

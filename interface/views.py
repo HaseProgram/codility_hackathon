@@ -39,7 +39,6 @@ def index(request):
     userlist = Profile.objects.get_profiles_by_id(request.user.id)
     try:
         cards = oapi.get_cardlist()
-        print(cards)
         cardslist = []
         for card in cards['Card']:
             balance = oapi.get_balance(card['CardId'])
@@ -101,12 +100,12 @@ def publictransaction(request):
 
 
 @login_required(redirect_field_name='continue')
-def contact(request, userid):
+def contact(request, id):
     redirect = request.GET.get('continue', '/')
-    requested_contact = Profile.objects.filter(user_id=userid)
+    requested_contact = Profile.objects.filter(user_id=id)
     if requested_contact.count > 0:
         fake_card = requested_contact[0].get_fakecard()
     else:
         Http404()
-    return render(request, 'contact.html', { 'fakecard' : fakecard })
+    return render(request, 'contact.html', { 'fakecard' : fakecard, 'form': form})
     

@@ -18,10 +18,7 @@ class ProfileManager(models.Manager):
         return self.get_queryset().filter(profiles=profile)#prefetch_related('profiles')
        
     def get_profiles_by_id(self, user_id):
-        # print('a')
-        # print(user_id)
         profile = self.get_queryset().get(user_id=user_id)
-        # print(profile.id)
         res = self.get_by_profile(profile)
         return self.get_by_profile(profile)
 
@@ -42,10 +39,7 @@ class ProfileManager(models.Manager):
 class TransactionManager(models.Manager):
     def generate_transaction(self, transaction, user_id):
         trans_id = randint(1, 100)
-        # try:
         transaction_sum = int(transaction['TransactionSum'])
-        # except ValueError:
-          # raise  
         print(transaction_sum)
         print(trans_id)
         print(self.get_queryset().filter(id = trans_id).count() == 0)
@@ -53,6 +47,8 @@ class TransactionManager(models.Manager):
             tempTransaction =  Transaction()
             tempTransaction.transactionId = trans_id
             tempTransaction.owner = Profile.objects.filter(user_id = user_id)[0]
+            print(transaction['TransactionPlace'])
+            tempTransaction.transaction_company = transaction['TransactionPlace']
             tempTransaction.visibility = False
             tempTransaction.save()
 
@@ -74,20 +70,15 @@ class Profile(models.Model):
     objects=ProfileManager()
 
 
-
-
 class MileStone(models.Model):
     card = models.OneToOneField(FakeCard)
     milestone = models.DateTimeField(default=timezone.now() + datetime.timedelta(7))
-
-# class Contact(models.Model):
-    # profiles = models.ManyToManyField(Profile)
 
 
 class Transaction(models.Model):
     transactionId = models.IntegerField(null=False)
     owner = models.ForeignKey(Profile)
-    transaction_company = models.CharField(default='', max_length=50)
+    transaction_company = models.CharField(default='', max_length=350)
     visibility = models.BooleanField(default=False)
 
     objects = TransactionManager()

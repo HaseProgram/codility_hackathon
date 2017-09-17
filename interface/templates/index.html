@@ -22,7 +22,7 @@
             Do you wait for a gift? {{fakecard.timeleft}}
             <hr>
             {% for transaction in transactionlist %}
-                {{transaction.owner}}  	                
+                {{transaction.transaction_company}}  	                
                 <input type="checkbox" class="set-visible" data-transactionid="{{transaction.transactionID}}" {% if trasaction.visibility %} checked {%endif %}>
                 <span id="visible{{transaction.transactionID}}"></span>
             {% endfor %}

@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^signup/', views.signup, name='signup-url'),
     url(r'^signin/', views.signin, name='signin-url'),
+    url(r'^contact/(?P<id>\w+)/', views.contact, name='contact-url'),
     url(r'^index/', views.index, name='index-url'),
     url(r'^logout/', views.logout, name='logout-url'),
 
