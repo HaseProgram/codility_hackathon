@@ -48,7 +48,7 @@ def signup(request):
     else:
         form = SignupForm()
 
-    return render(request, 'index.html', {
+    return render(request, 'signup.html', {
             'form': form,
             })
 
@@ -58,4 +58,3 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(redirect)
 
-def Main
