@@ -58,4 +58,3 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(redirect)
 
-def Main
