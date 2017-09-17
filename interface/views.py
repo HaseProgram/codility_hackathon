@@ -9,11 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from random import randint
 import json 
-#from interface.openapi import getcardlist
 
 def signin(request):
     redirect = request.GET.get('continue', '/')
-    print(redirect)
     if request.user.is_authenticated():
         return HttpResponseRedirect(redirect)
 
@@ -21,10 +19,8 @@ def signin(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             auth.login(request, form.cleaned_data['user'])
-            # print(request.user.id)
             profile = Profile.objects.get_or_create(request.user.id)
-            # print(profile)
-            request.session['fakecard'] = profile.get_fakecard()#Profile.objects.filter(user_id=request.user.id)[0].get_fakecard()
+            request.session['fakecard'] = profile.get_fakecard()
             return HttpResponseRedirect(redirect)
     else:
         form = LoginForm()
@@ -48,7 +44,6 @@ def index(request):
             fakeCard = request.session['fakecard']
             transactions = oapi.get_transactions(card['CardId'])
             for transaction in transactions:
-                print(transaction)
                 Transaction.objects.generate_transaction(transaction, request.user.id)
             transactionlist = Transaction.objects.get_by_userid(request.user.id)
             cardlist = None
@@ -88,8 +83,9 @@ def publictransaction(request):
     redirect = request.GET.get('continue', '/')
     body = request.body.decode("utf-8")
     request.POST = json.loads(body)
-    transaction = Transaction.objects.get(id=request.POST.get('tid', False))
+    transaction = Transaction.objects.get(transactionId=request.POST.get('tid', False))
     is_public = request.POST.get('checked', False)
+   	print(is_public)
     transaction.public = is_public
     transaction.save()
 

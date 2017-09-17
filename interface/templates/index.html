@@ -23,8 +23,8 @@
             <hr>
             {% for transaction in transactionlist %}
                 {{transaction.transaction_company}}  	                
-                <input type="checkbox" class="set-visible" data-transactionid="{{transaction.transactionID}}" {% if trasaction.visibility %} checked {%endif %}>
-                <span id="visible{{transaction.transactionID}}"></span>
+                <input type="checkbox" class="set-visible" data-transactionid={{transaction.transactionId}} {% if trasaction.visibility %} checked {%endif %}>
+                <span id="visible{{transaction.transactionId}}"></span>
             {% endfor %}
         </section>
 </div>

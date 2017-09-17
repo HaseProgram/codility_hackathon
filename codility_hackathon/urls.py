@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^contact/(?P<id>\w+)/', views.contact, name='contact-url'),
     url(r'^index/', views.index, name='index-url'),
     url(r'^logout/', views.logout, name='logout-url'),
-
+    url(r'^publictransaction/', views.publictransaction),
     url(r'^$', views.index,  name='index-url'),
 ]

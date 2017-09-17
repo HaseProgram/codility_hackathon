@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'codility_hackathon.wsgi.application'
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'codility',
-        'USER': 'root',
-        'PASSWORD': 'apolon18',
+        'NAME': 'new',
+        'USER': 'comp',
+        'PASSWORD': '951103',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
