@@ -47,9 +47,9 @@ def index(request):
             cardslist.append(tCard)
             fakeCard = request.session['fakecard']
             transaktions = oapi.get_transactions(card['CardId'])
-            for transaction in transactions
+            for transaction in transactions:
                 transId = randint(1, 100)
-                if int(transaction['TransactionSum']) < 0 && Transaction.objects.get(id = transId) != None:
+                if int(transaction['TransactionSum']) < 0 and Transaction.objects.get(id = transId) != None:
                     tempTransaction =  Transaction()
                     tempTransaction.transactionId = transId
                     tempTransaction.owner = Profile.objects.filter(user_id = request.user.id)[0]
