@@ -102,3 +102,16 @@ def publictransaction(request):
         json.dumps({"tid": request.POST['tid'], 'public': is_public}),
         content_type="application/json"
 )
+
+
+@login_required(redirect_field_name='continue')
+def contact(request, userid)
+    redirect = request.GET.get('continue', '/')
+    requested_contact = Profile.objects.filter(user_id=userid)
+    if requested_contact.count > 0:
+        fake_card = requested_contact[0].get_fakecard()
+    else:
+        Http404()
+    return render(request, 'contact.html', { 'fakecard' : fakecard })
+    
+)
