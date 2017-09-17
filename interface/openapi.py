@@ -14,6 +14,3 @@ class OpenAPI(object):
             return response.json()['results']
         else:
         	raise BadResponseError
-
-
-
