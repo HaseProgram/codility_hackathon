@@ -100,9 +100,14 @@ class SignupForm(forms.Form):
        
         user.save()
         
+
         profile = Profile()
+        fake_card = FakeCard()
+        fake_card.save()
+
         profile.user = user
         profile.interest = data.get('interest')
+        profile.fake_card = fake_card
         profile.save()
         
         return authenticate(username=user.username, password=password)
